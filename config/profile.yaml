@@ -1,0 +1,45 @@
+role: "ML Engineer / AI Engineer"
+experience_years: 4
+
+skills:
+  core:
+    - Python
+    - LangChain
+    - LangGraph
+    - RAG
+    - MLOps
+    - FastAPI
+  bonus:
+    - Docker
+    - AWS
+    - HuggingFace
+
+preferences:
+  remote_only: true
+  job_types:
+    - full-time
+    - contract
+  salary_min: 80000
+  keywords_include:
+    - LLM
+    - GenAI
+    - AI engineer
+    - ML engineer
+    - machine learning
+  keywords_exclude:
+    - on-site
+    - security clearance
+
+search_queries:
+  - machine learning
+  - ML engineer
+  - AI engineer
+  - LLM engineer
+  - deep learning
+  - MLOps
+  - data scientist
+  - NLP engineer
+
+resume_path: "./config/resume.pdf"
+digest_top_n: 10
+min_match_score: 0.20
