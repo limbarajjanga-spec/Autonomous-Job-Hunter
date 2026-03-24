@@ -15,11 +15,32 @@ MODEL = SentenceTransformer("all-MiniLM-L6-v2")
 def _load_resume_text() -> str:
     profile = load_profile()
     path    = Path(profile["resume_path"])
-    if not path.exists():
-        logger.warning(f"Resume not found at {path}, using skills from profile.yaml")
-        skills = profile["skills"]["core"] + profile["skills"].get("bonus", [])
-        return " ".join(skills)
-    return extract_text(str(path))
+
+    # try PDF first
+    if path.exists():
+        try:
+            text = extract_text(str(path))
+            if text and len(text.strip()) > 100:
+                logger.info(f"Resume loaded from PDF: {path}")
+                return text
+            else:
+                logger.warning("PDF extracted but empty — trying .txt fallback")
+        except Exception as e:
+            logger.warning(f"PDF read failed ({e}) — trying .txt fallback")
+
+    # fall back to .txt
+    txt_path = path.with_suffix(".txt")
+    if txt_path.exists():
+        text = txt_path.read_text(encoding="utf-8")
+        logger.info(f"Resume loaded from TXT: {txt_path}")
+        return text
+
+    # last resort — skills from profile
+    logger.warning("No resume file found — using skills from profile.yaml")
+    skills = profile["skills"]["core"] + profile["skills"].get("bonus", [])
+    return " ".join(skills)
+
+
 
 def _clean(text: str) -> str:
     return re.sub(r"\s+", " ", text.strip().lower())

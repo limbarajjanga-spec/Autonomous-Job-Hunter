@@ -47,3 +47,11 @@ htmlcov/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Job hunter — secrets and local files
+config/gmail_token.json
+config/gmail_credentials.json
+config/resume.pdf
+config/resume.txt
+db/jobs.db
+config/__pycache__/

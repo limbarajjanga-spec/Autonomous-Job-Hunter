@@ -1,6 +1,7 @@
 anthropic
 langgraph
 langchain-anthropic
+langchain
 sentence-transformers
 requests
 beautifulsoup4
@@ -19,3 +20,5 @@ PyYAML
 rich
 loguru
 numpy
+torch
+transformers

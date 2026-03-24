@@ -5,27 +5,28 @@ from scrapers.base import Job
 
 REMOTIVE_URL = "https://remotive.com/api/remote-jobs"
 
+TAGS_TO_MATCH = [
+    "python", "machine learning", "ml", "ai", "llm", "nlp",
+    "deep learning", "data science", "pytorch", "tensorflow",
+    "langchain", "rag", "mlops", "huggingface", "generative",
+    "data engineer", "ai engineer", "ml engineer"
+]
+
 def scrape(keywords: list[str]) -> list[Job]:
     jobs = []
-
-    # smarter matching — any single word from any keyword matches
-    kw_words = set()
-    for k in keywords:
-        kw_words.update(k.lower().split())
-    kw_words -= {"engineer", "remote", "senior", "junior"}
-
     try:
         resp = requests.get(REMOTIVE_URL, timeout=15)
         resp.raise_for_status()
         listings = resp.json().get("jobs", [])
 
         for item in listings:
-            title = item.get("title", "")
-            desc  = item.get("description", "")
-            tags  = item.get("tags", [])
-            text  = (title + " " + " ".join(tags) + " " + desc[:300]).lower()
+            title    = item.get("title", "")
+            tags     = [t.lower() for t in item.get("tags", [])]
+            category = item.get("category", "").lower()
+            desc     = item.get("description", "")[:300].lower()
+            text     = (title + " " + " ".join(tags) + " " + category + " " + desc).lower()
 
-            if not any(w in text for w in kw_words):
+            if not any(t in text for t in TAGS_TO_MATCH):
                 continue
 
             jobs.append(Job(
@@ -33,10 +34,10 @@ def scrape(keywords: list[str]) -> list[Job]:
                 company    = item.get("company_name", "Unknown"),
                 url        = item.get("url", ""),
                 source     = "Remotive",
-                description= desc,
+                description= item.get("description", ""),
                 location   = item.get("candidate_required_location", "Remote"),
                 salary     = item.get("salary", ""),
-                tags       = tags,
+                tags       = item.get("tags", []),
                 posted_at  = item.get("publication_date", ""),
             ))
 

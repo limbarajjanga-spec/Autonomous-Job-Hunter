@@ -11,7 +11,12 @@ FEEDS = [
 
 def scrape(keywords: list[str]) -> list[Job]:
     jobs = []
-    kw_lower = [k.lower() for k in keywords]
+
+    # smarter matching — any single word from any keyword matches
+    kw_words = set()
+    for k in keywords:
+        kw_words.update(k.lower().split())
+    kw_words -= {"engineer", "remote", "senior", "junior"}
 
     for feed_url in FEEDS:
         try:
@@ -21,7 +26,7 @@ def scrape(keywords: list[str]) -> list[Job]:
                 summary = entry.get("summary", "")
                 text    = (title + " " + summary).lower()
 
-                if not any(k in text for k in kw_lower):
+                if not any(w in text for w in kw_words):
                     continue
 
                 # WWR title format: "Company: Job Title"

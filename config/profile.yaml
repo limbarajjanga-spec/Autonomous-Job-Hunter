@@ -1,5 +1,5 @@
-role: "ML Engineer / AI Engineer"
-experience_years: 4
+role: "AI Engineer"
+experience_years: 3
 
 skills:
   core:
@@ -7,7 +7,6 @@ skills:
     - LangChain
     - LangGraph
     - RAG
-    - MLOps
     - FastAPI
   bonus:
     - Docker
@@ -19,27 +18,29 @@ preferences:
   job_types:
     - full-time
     - contract
-  salary_min: 80000
+  salary_min: 50000
   keywords_include:
     - LLM
     - GenAI
     - AI engineer
-    - ML engineer
-    - machine learning
+    - GEN AI engineer
+    - Automation
   keywords_exclude:
     - on-site
     - security clearance
 
 search_queries:
-  - machine learning
   - ML engineer
   - AI engineer
   - LLM engineer
-  - deep learning
-  - MLOps
+  - automation engineer
+  - Project manager
   - data scientist
   - NLP engineer
+  - product manager
+  - business analyst
+  - GenAI engineer
 
 resume_path: "./config/resume.pdf"
 digest_top_n: 10
-min_match_score: 0.20
+min_match_score: 0.03
